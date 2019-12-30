@@ -1,9 +1,10 @@
-package guru.sfg.beer.order.service.services;
+package guru.sfg.beer.order.service.sm;
 
 import guru.sfg.beer.order.service.domain.BeerOrder;
 import guru.sfg.beer.order.service.domain.BeerOrderEventEnum;
 import guru.sfg.beer.order.service.domain.BeerOrderStatusEnum;
 import guru.sfg.beer.order.service.repositories.BeerOrderRepository;
+import guru.sfg.beer.order.service.services.BeerOrderManagerImpl;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,8 @@ public class BeerOrderStateChangeInteceptor
 //
 //                           });
         Optional.ofNullable(message)
-                .flatMap(msg -> Optional.ofNullable((String) msg.getHeaders().getOrDefault(BeerOrderManagerImpl.BEER_ORDER_ID_HEADER, " ")))
+                .flatMap(msg -> Optional.ofNullable((String) msg.getHeaders().getOrDefault(
+                        BeerOrderManagerImpl.BEER_ORDER_ID_HEADER, " ")))
                 .ifPresent(beerOrderId ->
                            {
                                BeerOrder beerOrder = beerOrderRepository.getOne(UUID.fromString(beerOrderId));
