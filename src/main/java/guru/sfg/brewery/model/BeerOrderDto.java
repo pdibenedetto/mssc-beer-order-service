@@ -15,36 +15,45 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package guru.sfg.beer.order.service.web.model;
+package guru.sfg.brewery.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class BeerOrderDto extends BaseItem {
+@AllArgsConstructor
+@Builder
+public class BeerOrderDto
+{
+    @JsonProperty("id")
+    private UUID id = null;
 
-    @Builder
-    public BeerOrderDto(UUID id, Integer version, OffsetDateTime createdDate, OffsetDateTime lastModifiedDate, UUID customerId, List<BeerOrderLineDto> beerOrderLines,
-                        OrderStatusEnum orderStatus, String orderStatusCallbackUrl, String customerRef) {
-        super(id, version, createdDate, lastModifiedDate);
-        this.customerId = customerId;
-        this.beerOrderLines = beerOrderLines;
-        this.orderStatus = orderStatus;
-        this.orderStatusCallbackUrl = orderStatusCallbackUrl;
-        this.customerRef = customerRef;
-    }
+    @JsonProperty("version")
+    private Integer version = null;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ", shape = JsonFormat.Shape.STRING)
+    @JsonProperty("createdDate")
+    private OffsetDateTime createdDate = null;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ", shape = JsonFormat.Shape.STRING)
+    @JsonProperty("lastModifiedDate")
+    private OffsetDateTime lastModifiedDate = null;
 
     private UUID customerId;
+
     private String customerRef;
+
     private List<BeerOrderLineDto> beerOrderLines;
-    private OrderStatusEnum orderStatus;
+
+    private String orderStatus;
+
     private String orderStatusCallbackUrl;
 }
